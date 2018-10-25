@@ -11,10 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class JsonCall {
-	public static void main(String[] args) {
-		call("http://ec2-13-209-57-181.ap-northeast-2.compute.amazonaws.com:8540");
-		
-	}
 	
 	public static JSONObject call(String url){
 		JSONObject jsonObject = new JSONObject();
