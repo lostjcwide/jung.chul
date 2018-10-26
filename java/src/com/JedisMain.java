@@ -5,8 +5,11 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisMain {
+	
+	
+	
 	public static void main(String[] args) {
-		String host = "103.75.0.18";
+		String host = "";
         int port = 6379;
         int timeout = 3000;
         int db = 0;

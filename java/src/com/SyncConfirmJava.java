@@ -6,6 +6,7 @@ public class SyncConfirmJava {
 	
 	public static void main(String[] args) {
 		String[] urls = {
+				
 				};
 		
 		for (String url : urls) {
