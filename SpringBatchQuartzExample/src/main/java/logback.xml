@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="true">
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+    <!-- 변수 지정 -->
+    <property name="log_dir" value="c:/home/app/berith-batch/logs/" />
+    
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>[%d][%p][%C][%M]:%L - %m%n</Pattern>
+		</encoder>
+	</appender>
+
+    <appender name="stdout" class="ch.qos.logback.classic.sift.SiftingAppender">
+      	<discriminator>
+	         <key>jobName</key>
+	         <defaultValue>unknown</defaultValue>
+	     </discriminator>
+	         
+	     <sift>
+		  <appender name="FILE-${jobName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		      <ActiveFileName>${log_dir}data-${jobName}.log"</ActiveFileName>
+		      <FileNamePattern>${log_dir}data-${jobName}.%d{yyyy-MM-dd}.log</FileNamePattern>
+		    </rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<Pattern>
+				[%d][%p][%C][%M]:%L - %m%n
+				</Pattern>
+			</encoder>
+		  </appender>
+		</sift>
+    </appender>
+
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR, 대소문자 구분 안함 -->
+    <!-- profile 을 읽어서 appender 을 설정할수 있다.(phase별 파일을 안만들어도 되는 좋은 기능) -->
+    
+    
+    <logger name="stdLogger" additivity="false">
+		 <level value="debug"/>
+		 <appender-ref ref="stdout"/>
+		 <appender-ref ref="consoleAppender" />
+	 </logger>
+ 
+    <root level="debug">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="consoleAppender" />
+    </root>
+</configuration>
