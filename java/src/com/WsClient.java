@@ -30,7 +30,9 @@ public class WsClient {
 			    @Override
 			    public void onMessage(String message) {
 			        // WebSocket 서버에서 메시지 수신시 동작 정의, 아래는 Hello 메시지 수신시 연결 종료
-			        System.out.println(message);
+//			        System.out.println(message);
+			        JSONObject js = new JSONObject(message);
+			        System.out.println(url + " : " + Long.parseLong(js.getString("result").replace("0x", ""), 16));
 			    }
 
 			    @Override
@@ -41,6 +43,7 @@ public class WsClient {
 			    @Override
 			    public void onError(Exception ex) {
 			        // 예외 발생시 동작 정의
+			    	ex.printStackTrace();
 			    }
 
 			};
