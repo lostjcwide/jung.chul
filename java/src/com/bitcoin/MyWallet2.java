@@ -19,9 +19,9 @@ public class MyWallet2 {
 //			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), 회원고유번호);
 			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), Properties.USER);
 			kit.setBlockingStartup(false);
-			kit.setPeerNodes(
+//			kit.setPeerNodes(
 //	                        new PeerAddress(InetAddress.getByName("node3.mycelium.com"), 18333),
-	                        new PeerAddress("13.209.138.82", 18332));
+//	                        new PeerAddress("13.209.138.82", 18332));
 			myWallet.synchBlockchain(kit);
 			List<MyWallet> walletList = myWallet.getWalletAddress(kit);
 			for (MyWallet w : walletList) {
