@@ -17,7 +17,7 @@ public class MyWallet2 {
 		try {
 			MyWallet2 myWallet = new MyWallet2();
 //			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), 회원고유번호);
-			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), "test");
+			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), Properties.USER);
 			kit.setBlockingStartup(false);
 			kit.setPeerNodes(
 //	                        new PeerAddress(InetAddress.getByName("node3.mycelium.com"), 18333),
