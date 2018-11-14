@@ -15,7 +15,8 @@ public class SendBTC {
 		try {
 			MyWallet2 myWallet = new MyWallet2();
 			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), Properties.USER);
-//			kit.setBlockingStartup(false);
+//			kit.setBlockingStartup(true); 이게 빠져야 하는 것으로 보인다. 
+//			kit.setBlockingStartup(true);
 //			kit.setPeerNodes(
 //                        new PeerAddress(InetAddress.getByName("node3.mycelium.com"), 18333),
 //					new PeerAddress("13.209.138.82", 18332));
