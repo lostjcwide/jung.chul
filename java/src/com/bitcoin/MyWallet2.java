@@ -16,6 +16,7 @@ public class MyWallet2 {
 	public static void main(String[] args) {
 		try {
 			MyWallet2 myWallet = new MyWallet2();
+//			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), 회원고유번호);
 			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), "test");
 			kit.setBlockingStartup(false);
 			kit.setPeerNodes(
