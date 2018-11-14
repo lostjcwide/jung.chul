@@ -16,9 +16,7 @@ public class MyWallet2 {
 	public static void main(String[] args) {
 		try {
 			MyWallet2 myWallet = new MyWallet2();
-			WalletAppKit kit = myWallet.initialWallet(myWallet.getTestNetParam());
-			kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), "test");
-			kit.setAutoSave(true);
+			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), "test");
 			kit.setBlockingStartup(false);
 			kit.setPeerNodes(
 //	                        new PeerAddress(InetAddress.getByName("node3.mycelium.com"), 18333),
