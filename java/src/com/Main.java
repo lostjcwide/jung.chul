@@ -5,6 +5,8 @@ import java.util.List;
 public class Main {
 	public static void main(String[] args) {
 		
+		System.out.println(!"/**/*".equals("/wallet/mypage/setNewlPwdInputForm*"));
+		
 		List<String> sl = FileJava.getFileConList("D:/data/json.txt");
 		
 		for (String json : sl) {
