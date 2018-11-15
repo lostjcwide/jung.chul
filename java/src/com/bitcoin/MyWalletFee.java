@@ -5,17 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Coin;
+import org.bitcoinj.core.InsufficientMoneyException;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.PeerAddress;
+import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.Utils;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.wallet.DeterministicSeed;
+import org.bitcoinj.wallet.SendRequest;
+import org.bitcoinj.wallet.Wallet;
+import org.bitcoinj.wallet.Wallet.SendResult;
 
-public class MyWallet2 {
+public class MyWalletFee {
 	public static void main(String[] args) {
 		try {
-			MyWallet2 myWallet = new MyWallet2();
+			MyWalletFee myWallet = new MyWalletFee();
 //			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), 회원고유번호);
 			WalletAppKit kit = new WalletAppKit(myWallet.getTestNetParam(), new File("."), Properties.USER);
 //			kit.setBlockingStartup(true); 이게 빠져야 하는 것으로 보인다. 
@@ -77,6 +83,30 @@ public class MyWallet2 {
 			walletList.add(w);
 		}
 		return walletList;
+	}
+	
+	public void setSendRequest(NetworkParameters params, String base58, String value, Wallet wallet, int fee) throws InsufficientMoneyException {
+		Address address = Address.fromBase58(getTestNetParam(), base58);
+
+		if (Float.parseFloat(value) > 0.0f) {
+			SendRequest request = SendRequest.to(address, Coin.parseCoin(value));
+			request.shuffleOutputs = false;
+			request.ensureMinRequiredFee = true;
+
+			switch (fee) {
+			case 0:
+				request.feePerKb = Transaction.DEFAULT_TX_FEE;
+				break;
+			case 1:
+				request.feePerKb = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
+				break;
+			default:
+				request.feePerKb = Transaction.MIN_NONDUST_OUTPUT;
+				break;
+			}
+			
+			SendResult sendResult = wallet.sendCoins(request);
+		}
 	}
 
 }

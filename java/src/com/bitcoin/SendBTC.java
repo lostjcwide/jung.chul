@@ -22,7 +22,7 @@ public class SendBTC {
 //					new PeerAddress("13.209.138.82", 18332));
 			myWallet.synchBlockchain(kit);
 			Address address = Address.fromBase58(myWallet.getTestNetParam(), sendAddress);
-			Transaction tx = kit.wallet().createSend(address, Coin.parseCoin("0.005"));
+			Transaction tx = kit.wallet().createSend(address, Coin.parseCoin("0.003"));
 			final Peer peer = kit.peerGroup().getConnectedPeers().get(0);
 			peer.sendMessage(tx);
 			
