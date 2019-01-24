@@ -12,9 +12,9 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://220.95.212.124:30216/encrypt_coin_forum?characterEncoding=UTF-8" />
-		<property name="username" value="encrypt_coin_forum" />
-		<property name="password" value="rcm123" />
+		<property name="url" value="" />
+		<property name="username" value="" />
+		<property name="password" value="" />
 	</bean>
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
