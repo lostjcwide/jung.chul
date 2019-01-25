@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import com.rocomo.mapper.Mapper;
+import com.rocomo.utils.RedisUtil;
 
 public class BatchMain {
 	
@@ -18,9 +19,9 @@ public class BatchMain {
 		ApplicationContext context = new ClassPathXmlApplicationContext(paths);
 		DummyBean bean = (DummyBean) context.getBean("dummy");
 		
-		RedisTemplate<String, String> redisTemplate = (RedisTemplate<String, String>) context.getBean("redisTemplate");
-		ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
-		ListOperations<String, String> listOps = redisTemplate.opsForList();
+//		RedisTemplate<String, String> redisTemplate = (RedisTemplate<String, String>) context.getBean("redisTemplate");
+//		ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+//		ListOperations<String, String> listOps = redisTemplate.opsForList();
 		
 		SqlSessionTemplate sqlSession = (SqlSessionTemplate) context.getBean("sqlSession");
 		Mapper mapper = sqlSession.getMapper(Mapper.class);
@@ -30,5 +31,10 @@ public class BatchMain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+		RedisUtil util = (RedisUtil) context.getBean("redisUtil");
+		System.out.println( util.getValue("mp:binance:20190123:raw:200002/200003") );
+				
 	}
 }
