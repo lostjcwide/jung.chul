@@ -9,19 +9,19 @@
         					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
 	default-autowire="byName" default-init-method="init">
 
-<!-- 	<bean id="jedisConnFactory"  -->
-<!-- 			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  -->
-<!-- 			p:usePool="true"  -->
-<!-- 			p:hostName=""  -->
-<!-- 			p:port="" -->
-<!-- 			p:database="5" /> -->
-			
 	<bean id="jedisConnFactory" 
 			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" 
 			p:usePool="true" 
-			p:hostName="127.0.0.1" 
-			p:port="6379"
+			p:hostName="" 
+			p:port=""
 			p:database="5" />
+			
+<!-- 	<bean id="jedisConnFactory"  -->
+<!-- 			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  -->
+<!-- 			p:usePool="true"  -->
+<!-- 			p:hostName="127.0.0.1"  -->
+<!-- 			p:port="6379" -->
+<!-- 			p:database="5" /> -->
 			
 	<bean id="redisTemplate" name="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnFactory" />
@@ -44,9 +44,7 @@
 	</bean>
 	
 	<bean name="redisUtil" class="com.rocomo.utils.RedisUtil" >
-		<constructor-arg>
-			<ref bean="redisTemplate"/>
-		</constructor-arg>
+		<property name="redisTemplate" ref="redisTemplate" />
 	</bean>
 			
 </beans>
