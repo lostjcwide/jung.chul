@@ -16,7 +16,7 @@ import com.rocomo.mapper.Mapper;
 import com.rocomo.utils.RedisUtil;
 import com.rocomo.vo.RawVo;
 
-public class BatchMain {
+public class RawDataMain {
 	
 	@SuppressWarnings({ "resource" })
 	public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class BatchMain {
 			
 			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	    	Calendar c = Calendar.getInstance(TimeZone.getDefault());
-	    	c.add(Calendar.DATE, -5);
+	    	c.add(Calendar.DATE, -4);
 	    	Date dt = c.getTime();
 	    	
 	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

@@ -5,4 +5,145 @@
 	<select id="select1" parameterType="hashmap" resultType="hashmap">
 		select 1 from dual
 	</select>
+	
+	<insert id="insertRawData" parameterType="com.rocomo.vo.RawVo">
+		insert into 
+			exchange_raw_data
+		(
+			exchange
+			,	coin
+			,	market
+			,	vol
+			,	amt
+			,	close
+			,	reg_dttm
+		)
+		values
+		(
+			#{exchange}
+			,	#{coin}
+			,	#{market}
+			,	#{vol}
+			,	#{amt}
+			,	#{close}
+			,	#{regDttm}
+		)
+	</insert>
+	
+	<insert id="insertRepData" parameterType="com.rocomo.vo.RepVo">
+		insert into 
+			coin_rep_data
+		(
+			coin
+			,	avg
+			,	ldavg
+			,	reg_dttm
+		)
+		values
+		(
+			#{coin}
+			,	#{avg}
+			,	#{ldavg}
+			,	#{regDttm}
+		)
+	</insert>
+	
+	<select id="selectExchangeInfo" parameterType="com.rocomo.vo.ExVo" resultType="com.rocomo.vo.ExVo">
+		select
+			seq as seq
+			,	exchange_name_eng as exchangeNameEng
+		from
+			exchange_list
+		where
+			exchange_name_eng = #{exchangeNameEng}
+	</select>
+	
+	<insert id="insertExchangeCoinList" parameterType="com.rocomo.vo.ExCoinVo">
+		insert into 
+			exchange_coin_list
+		(
+			exchange_seq
+			,	exchange_nm
+			,	coin_cd
+			,	name
+			,	symbol
+			,	coin_idx
+			,	regist_date
+			,	update_date
+		)
+		values
+		(
+			#{exchangeSeq}
+			,	#{exchangeNm}
+			,	( select coin_cd from coin_url where symbol = #{symbol} and name = #{name} )
+			,	#{name}
+			,	#{symbol}
+			,	( select ifnull(max(i.coin_idx), 0) + 1 from exchange_coin_list i where i.exchange_seq = #{exchangeSeq} )
+			,	now()
+			,	now()
+		)
+		on duplicate key
+		update
+			coin_cd = ( select coin_cd from coin_url where symbol = #{symbol} and name = #{name} )
+			,	update_date = now()
+	</insert>
+	
+	<insert id="insertExchangeCoinListBySymbol" parameterType="com.rocomo.vo.ExCoinVo">
+		insert into 
+			exchange_coin_list
+		(
+			exchange_seq
+			,	exchange_nm
+			,	coin_cd
+			,	name
+			,	symbol
+			,	coin_idx
+			,	regist_date
+			,	update_date
+		)
+		values
+		(
+			#{exchangeSeq}
+			,	#{exchangeNm}
+			,	( select coin_cd from coin_url where symbol = #{symbol} )
+			,	#{name}
+			,	#{symbol}
+			,	( select ifnull(max(i.coin_idx), 0) + 1 from exchange_coin_list i where i.exchange_seq = #{exchangeSeq} )
+			,	now()
+			,	now()
+		)
+		on duplicate key
+		update
+			coin_cd = ( select coin_cd from coin_url where symbol = #{symbol} )
+			,	update_date = now()
+	</insert>
+	
+	<select id="selectExchangeCodeList" parameterType="com.rocomo.vo.ExVo" resultType="com.rocomo.vo.ExCoinVo">
+		select
+			ifnull(coin_cd, symbol) as coinCd
+			,	symbol
+		from
+			exchange_coin_list
+		where
+			exchange_seq = #{seq}
+	</select>
+	
+	<insert id="insertRateData" parameterType="com.rocomo.vo.RateVo">
+		insert into 
+			currency_rate
+		(
+			currency
+			,	base
+			,	rate
+			,	reg_dttm
+		)
+		values
+		(
+			#{currency}
+			,	#{base}
+			,	#{rate}
+			,	now()
+		)
+	</insert>
+	
 </mapper>

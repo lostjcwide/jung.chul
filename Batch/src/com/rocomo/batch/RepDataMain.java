@@ -14,9 +14,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.google.gson.Gson;
 import com.rocomo.mapper.Mapper;
 import com.rocomo.utils.RedisUtil;
-import com.rocomo.vo.RawVo;
+import com.rocomo.vo.RepVo;
 
-public class BatchMain {
+public class RepDataMain {
 	
 	@SuppressWarnings({ "resource" })
 	public static void main(String[] args) {
@@ -32,10 +32,10 @@ public class BatchMain {
 		Mapper mapper = sqlSession.getMapper(Mapper.class);
 		
 		try {
-			
+			System.out.println("start process");
 			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	    	Calendar c = Calendar.getInstance(TimeZone.getDefault());
-	    	c.add(Calendar.DATE, -5);
+	    	c.add(Calendar.DATE, -4);
 	    	Date dt = c.getTime();
 	    	
 	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -43,33 +43,24 @@ public class BatchMain {
 	    	
 	    	System.out.println(yyyyMMdd);
 	    	
-	    	String[] exchanges = {"binance", "bittrex", "cryptopia", "hitbtc", "kucoin", "yobit"};
-	    	
-	    	for (String exchange : exchanges) {
-	    		String pattern = "mp:"+exchange+":"+yyyyMMdd+":raw:*";
-	    		
-	    		Set<String> keys = util.getKeys(pattern);
-	    		
-	    		if( keys.size() > 0 ) {
-	    			List<String> values = util.multiGet(keys);
-	    			for (String value : values) {
-	    				RawVo rawVo = new Gson().fromJson(value, RawVo.class);
-	    				if( null != rawVo ) {
-	    					String[] arr = rawVo.getPair().split("/");
-	    					rawVo.setCoin(arr[0]);
-	    					rawVo.setMarket(arr[1]);
-	    					rawVo.setExchange(exchange);
-	    					rawVo.setRegDttm(yyyyMMdd);
-	    					
-	    					mapper.insertRawData(rawVo);
-	    				}
-	    				
-	    			}
-	    			
-	    			util.deleteKeys(keys);
-	    		}
-			}
-	    	
+    		String pattern = "mp:rep:"+yyyyMMdd+":*";
+    		
+    		Set<String> keys = util.getKeys(pattern);
+    		
+    		if( keys.size() > 0 ) {
+    			List<String> values = util.multiGet(keys);
+    			
+    			for (String value : values) {
+    				RepVo repVo = new Gson().fromJson(value, RepVo.class);
+    				if( null != repVo ) {
+    					repVo.setCoin(repVo.getId());
+    					repVo.setRegDttm(yyyyMMdd);
+    					mapper.insertRepData(repVo);
+    				}
+    			}
+    			util.deleteKeys(keys);
+    		}
+    		System.out.println("end process");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
